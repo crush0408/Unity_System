@@ -23,9 +23,87 @@ public abstract class MovingEntity : MonoBehaviour
     protected Action movingAction; // 이동 액션
 
     protected float currentCheckDistance; // 현재 간격체크 거리
+    protected IEnumerator movingCoroutine; // 무빙 코루틴 객체
 
-    protected virtual void MovingInit(NodeBlock nodeBlock)
+
+    public virtual void Init(NodeBlock nodeBlock)
     {
+        currentNode = nodeBlock;
+        moveSpeed = 2f;
+    }
+    protected virtual void Reset()
+    {
+        if(movingCoroutine != null)
+        {
+            StopCoroutine(movingCoroutine);
+            movingCoroutine = null;
+        }
+    }
+    public void Move(Action _arriveAction, NodeBlock _node, Action _movingAction) // 이동
+    {
+        if(movingCoroutine == null)
+        {
+            destNode = _node;
+            arrveAction = _arriveAction;
+            movingAction = _movingAction;
 
+            movingCoroutine = MovingCoroutine();
+            StartCoroutine(movingCoroutine);
+        }
+        else
+        {
+            Debug.Log("해당 객체가 이미 움직이는 중입니다");
+        }
+    }
+    protected IEnumerator MovingCoroutine()
+    {
+        myWay = AStarManager.PathFinding(currentNode, destNode);
+        currentWayIndex = 0;
+        totalWayIndex = myWay.Count;
+
+        // 이동
+        while (currentWayIndex < totalWayIndex)
+        {
+            movingAction?.Invoke();
+            if(CheckWayPoint())
+            {
+                currentWayIndex++;
+                currentNode = myWay[Mathf.Clamp(currentWayIndex, 0, totalWayIndex - 1)];
+
+            }
+
+            if(currentWayIndex < totalWayIndex)
+            {
+                moveDir = (myWay[currentWayIndex].transform.position - transform.position).normalized;
+                transform.position += moveDir * (moveSpeed * Time.deltaTime);
+            }
+            else
+            {
+                moveDir = Vector3.zero;
+                float smoothTime = currentCheckDistance / moveSpeed; // 보간 시간
+                float elapsedTime = 0;
+                Vector3 startPosition = transform.position;
+                while (elapsedTime < smoothTime)
+                {
+                    transform.position
+                        = Vector3.Lerp(startPosition, myWay[totalWayIndex - 1].transform.position, Mathf.Clamp01(elapsedTime / smoothTime));
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+                transform.position = myWay[totalWayIndex - 1].transform.position; // 마지막 블록 pos 반환
+            }
+            yield return null;
+        }
+
+        currentNode = myWay[totalWayIndex - 1];
+        myWay.Clear();
+        movingCoroutine = null;
+        arrveAction?.Invoke();
+    }
+
+    protected bool CheckWayPoint()
+    {
+        currentCheckDistance = moveSpeed * Time.deltaTime;
+        return SUtil.CheckDistance(transform.position, myWay[currentWayIndex].transform.position, currentCheckDistance);
     }
 }

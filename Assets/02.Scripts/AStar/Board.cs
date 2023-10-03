@@ -9,7 +9,7 @@ public class Board
     
     private List<Node> allNodeList = new List<Node>();
 
-    private Dictionary<short, Node> nodeDict = new Dictionary<short, Node>(); // 해시맵 구
+    private Dictionary<short, Node> nodeDict = new Dictionary<short, Node>(); // 해시맵 구성
 
     public Board() { }
     public Board(in float _nodeInterval, List<Node> _allNodeList, Dictionary<short, Node> _nodeDict)

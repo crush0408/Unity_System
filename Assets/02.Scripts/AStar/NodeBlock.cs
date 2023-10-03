@@ -7,6 +7,8 @@ using UnityEditor;
 [ExecuteInEditMode] // 에디트 모드에서도 실행
 public class NodeBlock : MonoBehaviour
 {
+    public Node node;
+
     // Editor Code Start
     SpriteRenderer sr;
     Color myColor;
