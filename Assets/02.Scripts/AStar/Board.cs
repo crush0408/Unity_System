@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//[System.Serializable] // 하이라키에서 보고 싶다면 주석 제거
 public class Board
 {
     private readonly float nodeInterval = 1f;
-
+    
     private List<Node> allNodeList = new List<Node>();
 
-    private Dictionary<short, Node> nodeDict = new Dictionary<short, Node>();
+    private Dictionary<short, Node> nodeDict = new Dictionary<short, Node>(); // 해시맵 구
 
     public Board() { }
     public Board(in float _nodeInterval, List<Node> _allNodeList, Dictionary<short, Node> _nodeDict)
@@ -35,16 +36,18 @@ public class Board
         }
         return false;
     }
-    public bool Exists(float x, float y, ref short id)
+    public bool Exists(float x, float y, ref short id) // 해당 위치 노드 체크
     {
         foreach (Node node in allNodeList)
         {
             if(node.x == x && node.y == y)
             {
+                // 있다면 해당 노드의 id 반환
                 id = node.id;
                 return true;
             }
         }
+        // 없다면 id = -1 반환
         id = -1;
         return false;
     }
@@ -72,30 +75,10 @@ public class Board
         //[-1,-1] [ 0,-1] [ 1,-1]
         //[-1, 0]         [ 1, 0]
         //[-1, 1] [ 0, 1] [ 1, 1]
+        // 주위 8방향 가져오기
 
-
-        /*
-        // Example 1
-        // 성능 관련 이슈 체크 필요 => 성능 상 같으나, 가독성 측면에서 예제2가 더 우수함
-        for (float x = -nodeInterval; x <= nodeInterval; x += nodeInterval)
-        {
-            for (float y = -nodeInterval; y <= nodeInterval; y += nodeInterval)
-            {
-                if (x == 0 && y == 0) continue; // Target Node Exception
-
-                if(Exists(target.x + x, target.y + y, ref id))
-                {
-                    aroundNodes.Add(nodeDict[id]);
-                }
-            }
-        }
-        */
-
-
-
-        // Example 2
         // Straight (직선)
-        if(Exists(target.x + nodeInterval, target.y, ref id))
+        if(Exists(target.x + nodeInterval, target.y, ref id)) // 참조 형식 활용
         {
             aroundNodes.Add(nodeDict[id]);
         }

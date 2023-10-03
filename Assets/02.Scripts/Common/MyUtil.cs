@@ -60,16 +60,12 @@ public static class SUtil
     }
     public static float GetSqrDistance(Vector3 a, Vector3 b) // 거리값의 제곱값 가져오기 (단순 거리 비교)
     {
-        return (a-b).sqrMagnitude;
+        return (a-b).sqrMagnitude; // sqrMagnitude : Mathf.Pow(b.x - a.x, 2) + Mathf.Pow(b.y - a.y, 2);
     }
     public static bool CheckDistance(Vector3 a, Vector3 b, float distance) // 거리를 비교할 때엔 제곱값을 활용
     {
         return GetSqrDistance(a,b) <= distance * distance;
     }
-    //public static float GetSqrDistance(Vector3 a, Vector3 b)
-    //{
-    //    return Mathf.Pow(b.x - a.x, 2) + Mathf.Pow(b.y - a.y, 2);
-    //}
 
 
     // Position 관련

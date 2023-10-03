@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class AStar
 {
-    private static float GetSqrDistance(Node a, Node b)
+    private static float GetSqrDistance(Node a, Node b) // Node용 거리 가져오기 함수
     {
         return Mathf.Pow(b.x - a.x, 2) + Mathf.Pow(b.y - a.y, 2);
     }

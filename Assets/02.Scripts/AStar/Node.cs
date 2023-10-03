@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//[System.Serializable] // 하이라키에서 보고 싶다면 주석 제거
 public class Node
 {
     public short id;
