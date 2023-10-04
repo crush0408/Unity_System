@@ -118,10 +118,44 @@ public static class MyUtil
         TimeSpan timeSpan = TimeSpan.FromSeconds(second);
         return GetTimeText(timeSpan);
     }
-    public static TimeSpan GetTimeInterval(DateTime a, DateTime b)
+    public static TimeSpan GetTimeInterval(DateTime a, DateTime b) // 시간 간격 계산하기
     {
         return (b - a);
     }
     #endregion
 
+
+    #region Color
+    public static Color GetColorByCode(string hex) // 색깔 코드로 컬러 가져오기
+    {
+        Color color = new Color();
+        color.r = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber) / 255f;
+        color.g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber) / 255f;
+        color.b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber) / 255f;
+        color.a = 1f;
+        return color;
+    }
+    #endregion
+
+
+
+    #region Pos
+    public static Vector3 GetWorldPos(Vector3 pos)
+    {
+        return Camera.main.ScreenToWorldPoint(pos);
+    }
+    public static Vector3 GetScreenPos(Vector3 pos)
+    {
+        return Camera.main.WorldToScreenPoint(pos);
+    }
+    public static Vector3 GetViewPortPos(Vector3 pos)
+    {
+        return Camera.main.WorldToViewportPoint(pos);
+    }
+    public static Vector3 GetCenterPos(Vector3 point1, Vector3 point2) // 두 점 사이의 중간점 구하기
+    {
+        return (point1 + point2) / 2f;
+    }
+
+    #endregion
 }
