@@ -14,30 +14,27 @@ public abstract class UIPopup : UIBase
     [Space]
     private Color originColor;
     
-    Sequence openSequence;
-
-    Sequence closeSequence;
+    Sequence openSequence; // 팝업 오픈 트윈
+    
 
     public override void Init()
     {
         originColor = bgImg.color;
-
+        
+        // 오픈 트윈 세팅
         openSequence = DOTween.Sequence().SetAutoKill(false).Pause()
             .Append(popupObj.transform.DOScale(Vector3.one * 1.1f, 0.2f).SetEase(Ease.OutQuad))
             .Join(bgImg.DOColor(originColor, 0.2f).SetEase(Ease.Linear))
             .Append(popupObj.transform.DOScale(Vector3.one * 1f, 0.1f).SetEase(Ease.OutQuad));
-        closeSequence = DOTween.Sequence().SetAutoKill(false).Pause()
-            .Append(transform.DOScale(Vector3.one * 1.1f, 0.1f).SetEase(Ease.OutQuad))
-            .Append(transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutQuad))
-            .Join(bgImg.DOColor(new Color(1, 1, 1, 0), 0.2f).SetEase(Ease.Linear))
-            .AppendCallback(() => base.Hide());
+
+        
         exitBtn.onClick.AddListener(() =>
         {
-            //UIHandler.HidePopup(Key);
+            UIHandler.HidePopup(Key);
         });
         bgBtn.onClick.AddListener(() =>
         {
-            //UIHandler.HidePopup(Key);
+            UIHandler.HidePopup(Key);
         });
     }
     public override void Show()
@@ -51,7 +48,7 @@ public abstract class UIPopup : UIBase
 
     public override void Hide()
     {
-        closeSequence.Restart();
+        base.Hide();
     }
     
 }
