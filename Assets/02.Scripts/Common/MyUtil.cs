@@ -6,7 +6,7 @@ using System;
 
 public static class MyUtil
 {
-    // Random 관련 함수
+    #region Random 관련 함수
     public static int GetRandomIntValue(int start, int end)
     {
         return UnityEngine.Random.Range(start, end);
@@ -25,13 +25,13 @@ public static class MyUtil
         int rand = GetRandomIntValue(0, 100);
         return rand > (100 - _value);
     }
+    #endregion
 
 
 
 
 
-
-    // List 관련 함수
+    #region List
     public static List<T> GetList<T>(in List<T> originList) // GetList By List
     {
         return originList.ToList();
@@ -49,11 +49,11 @@ public static class MyUtil
         List<T> targetNewList = GetList(targetList).FindAll(predicate);
         return targetNewList[GetRandomIntValue(0, targetNewList.Count)];
     }
+    #endregion
 
 
 
-
-    // Distance 관련
+    #region Distance
     public static float GetDistance(Vector3 a, Vector3 b) // 거리 값 가져오기 (정확한 거리 값 계산)
     {
         return (a-b).magnitude;
@@ -66,9 +66,10 @@ public static class MyUtil
     {
         return GetSqrDistance(a,b) <= distance * distance;
     }
+    #endregion
 
 
-    // DateTime 관련
+    #region DateTime
     public static DateTime GetDateTime(string saveTime) // 저장 시간 정보를 통해 DateTime 가져오기
     {
         return DateTime.FromBinary(Convert.ToInt64(saveTime));
@@ -82,32 +83,45 @@ public static class MyUtil
         return DateTime.Now.ToLocalTime();
     }
 
-    public static string GetTimeText(float second)
+    public static string GetTimeText(TimeSpan timeSpan) // 시간 텍스트 가져오기 (TimeSpan)
     {
-        TimeSpan timeSpan = TimeSpan.FromSeconds(second);
+        if(timeSpan.TotalSeconds < 0)
+        {
+            throw new ArgumentException("시간은 음수가 될 수 없습니다.");
+        }
 
-        string formattedTime = "";
+        List<string> components = new List<string>();
 
         if (timeSpan.Hours > 0)
         {
-            formattedTime += $"{timeSpan.Hours}H ";
+            components.Add($"{timeSpan.Hours}H");
         }
 
         if (timeSpan.Minutes > 0)
         {
-            formattedTime += $"{timeSpan.Minutes}M ";
+            components.Add($"{timeSpan.Minutes}M");
         }
 
-        if (timeSpan.Seconds > 0 || string.IsNullOrEmpty(formattedTime))
+        if (timeSpan.Seconds > 0 || components.Count == 0)
         {
-            formattedTime += $"{timeSpan.Seconds}S";
+            components.Add($"{timeSpan.Seconds}S");
         }
 
-        return formattedTime;
+        return string.Join(" ", components);
+    }
+    public static string GetTimeText(float second) // 시간 텍스트 가져오기 (Second)
+    {
+        if(second < 0)
+        {
+            throw new ArgumentException("시간은 음수가 될 수 없습니다.");
+        }
+        TimeSpan timeSpan = TimeSpan.FromSeconds(second);
+        return GetTimeText(timeSpan);
     }
     public static TimeSpan GetTimeInterval(DateTime a, DateTime b)
     {
         return (b - a);
     }
+    #endregion
 
 }
