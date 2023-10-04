@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening; // DOTween
 
 public abstract class UIPopup : UIBase
 {
@@ -12,37 +13,37 @@ public abstract class UIPopup : UIBase
     public Image bgImg; // 배경 이미지
     [Space]
     private Color originColor;
-    /*
+    
     Sequence openSequence;
 
     Sequence closeSequence;
 
     public override void Init()
     {
-        originColor = backImg.color;
+        originColor = bgImg.color;
 
         openSequence = DOTween.Sequence().SetAutoKill(false).Pause()
-            .Append(popupObject.transform.DOScale(Vector3.one * 1.1f, 0.2f).SetEase(Ease.OutQuad))
-            .Join(backGround.DOColor(basicColor, 0.2f).SetEase(Ease.Linear))
-            .Append(popupObject.transform.DOScale(Vector3.one * 1f, 0.1f).SetEase(Ease.OutQuad));
+            .Append(popupObj.transform.DOScale(Vector3.one * 1.1f, 0.2f).SetEase(Ease.OutQuad))
+            .Join(bgImg.DOColor(originColor, 0.2f).SetEase(Ease.Linear))
+            .Append(popupObj.transform.DOScale(Vector3.one * 1f, 0.1f).SetEase(Ease.OutQuad));
         closeSequence = DOTween.Sequence().SetAutoKill(false).Pause()
-            .Append(target.transform.DOScale(Vector3.one * 1.1f, 0.1f).SetEase(Ease.OutQuad))
-            .Append(target.transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutQuad))
-            .Join(backGround.DOColor(new Color(1, 1, 1, 0), 0.2f).SetEase(Ease.Linear))
+            .Append(transform.DOScale(Vector3.one * 1.1f, 0.1f).SetEase(Ease.OutQuad))
+            .Append(transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutQuad))
+            .Join(bgImg.DOColor(new Color(1, 1, 1, 0), 0.2f).SetEase(Ease.Linear))
             .AppendCallback(() => base.Hide());
         exitBtn.onClick.AddListener(() =>
         {
-            UIHandler.HidePopup(Key);
+            //UIHandler.HidePopup(Key);
         });
-        backBtn.onClick.AddListener(() =>
+        bgBtn.onClick.AddListener(() =>
         {
-            UIHandler.HidePopup(Key);
+            //UIHandler.HidePopup(Key);
         });
     }
     public override void Show()
     {
-        popupObject.transform.localScale = Vector3.zero;
-        backGround.color = new Color(1, 1, 1, 0);
+        popupObj.transform.localScale = Vector3.zero;
+        bgImg.color = new Color(1, 1, 1, 0);
         base.Show();
         openSequence.Restart();
     }
@@ -52,5 +53,5 @@ public abstract class UIPopup : UIBase
     {
         closeSequence.Restart();
     }
-    */
+    
 }
