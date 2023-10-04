@@ -104,6 +104,6 @@ public abstract class MovingEntity : MonoBehaviour
     protected bool CheckWayPoint()
     {
         currentCheckDistance = moveSpeed * Time.deltaTime;
-        return SUtil.CheckDistance(transform.position, myWay[currentWayIndex].transform.position, currentCheckDistance);
+        return MyUtil.CheckDistance(transform.position, myWay[currentWayIndex].transform.position, currentCheckDistance);
     }
 }

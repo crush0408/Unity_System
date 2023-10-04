@@ -4,9 +4,9 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-public static class SUtil
+public static class MyUtil
 {
-    // Random
+    // Random 관련 함수
     public static int GetRandomIntValue(int start, int end)
     {
         return UnityEngine.Random.Range(start, end);
@@ -53,7 +53,7 @@ public static class SUtil
 
 
 
-    // Distance 관련 + 추가 공부 필요
+    // Distance 관련
     public static float GetDistance(Vector3 a, Vector3 b) // 거리 값 가져오기 (정확한 거리 값 계산)
     {
         return (a-b).magnitude;
@@ -62,11 +62,52 @@ public static class SUtil
     {
         return (a-b).sqrMagnitude; // sqrMagnitude : Mathf.Pow(b.x - a.x, 2) + Mathf.Pow(b.y - a.y, 2);
     }
-    public static bool CheckDistance(Vector3 a, Vector3 b, float distance) // 거리를 비교할 때엔 제곱값을 활용
+    public static bool CheckDistance(Vector3 a, Vector3 b, float distance) // 거리를 비교할 때엔 제곱값을 활용 ( 성능적 우위 )
     {
         return GetSqrDistance(a,b) <= distance * distance;
     }
 
 
-    // Position 관련
+    // DateTime 관련
+    public static DateTime GetDateTime(string saveTime) // 저장 시간 정보를 통해 DateTime 가져오기
+    {
+        return DateTime.FromBinary(Convert.ToInt64(saveTime));
+    }
+    public static string GetSaveTime(DateTime dateTime) // 저장용 시간 정보 가져오기
+    {
+        return dateTime.ToBinary().ToString();
+    }
+    public static DateTime GetCurrentDateTime() // 현재 시간 정보 가져오기
+    {
+        return DateTime.Now.ToLocalTime();
+    }
+
+    public static string GetTimeText(float second)
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(second);
+
+        string formattedTime = "";
+
+        if (timeSpan.Hours > 0)
+        {
+            formattedTime += $"{timeSpan.Hours}H ";
+        }
+
+        if (timeSpan.Minutes > 0)
+        {
+            formattedTime += $"{timeSpan.Minutes}M ";
+        }
+
+        if (timeSpan.Seconds > 0 || string.IsNullOrEmpty(formattedTime))
+        {
+            formattedTime += $"{timeSpan.Seconds}S";
+        }
+
+        return formattedTime;
+    }
+    public static TimeSpan GetTimeInterval(DateTime a, DateTime b)
+    {
+        return (b - a);
+    }
+
 }

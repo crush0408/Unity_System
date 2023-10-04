@@ -160,7 +160,7 @@ public class MapEditor : EditorWindow
 
     private void LoadPrefab()
     {
-        prefabList = SUtil.GetList(Resources.LoadAll<GameObject>("Prefabs/"));
+        prefabList = MyUtil.GetList(Resources.LoadAll<GameObject>("Prefabs/"));
     }
 
 
