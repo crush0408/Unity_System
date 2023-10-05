@@ -24,11 +24,11 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             lock (lockObject)
             {
-                if (IsQuitting) // 어플리케이션 종료 중인 경우 null 반 
+                if (IsQuitting) // 어플리케이션 종료 중인 경우 null 반환
                 {
                     return null;
                 }
-                if (instance == null) // 인스턴스가 생성되어 있지 않은 경우 새로운 객체를 생성해서 만들어 준 후 반
+                if (instance == null) // 인스턴스가 생성되어 있지 않은 경우 새로운 객체를 생성해서 만들어 준 후 반환
                 {
                     // Scene에서 서치
                     instance = (T)FindObjectOfType(typeof(T));
@@ -45,6 +45,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     }
     private void OnDisable()
     {
+
         IsQuitting = true;
         instance = null;
     }

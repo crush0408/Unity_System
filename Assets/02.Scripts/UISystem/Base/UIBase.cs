@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class UIBase : MonoBehaviour
 {
-    public string Key => GetType().Name;
+    public string Key => GetType().Name; // UI 딕셔너리에 들어갈 Key, Key는 해당 스크립트의 이름
     public abstract void Init();
     public virtual void Show()
     {
