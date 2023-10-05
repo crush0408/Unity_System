@@ -6,14 +6,18 @@ using UnityEngine;
 
 public static class AStar
 {
-    private static float GetSqrDistance(Node a, Node b) // Node용 거리 가져오기 함수
+    private static float GetSqrDistance(Node a, Node b) // Node용 거리 가져오기 함수 
     {
         return Mathf.Pow(b.x - a.x, 2) + Mathf.Pow(b.y - a.y, 2);
+    }
+    private static float GetManhattenDistance(Node a, Node b) // 맨해튼 거리 측정
+    {
+        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
     }
     private static void SetCost(Node current, Node dest)
     {
         float g = current.parent.G + GetSqrDistance(current.parent, current); // prev G + parent to current G
-        float h = GetSqrDistance(current, dest);
+        float h = GetManhattenDistance(current, dest); // 대각선과 직선의 거리의 비용은 같지 않기에 맨해튼 거리 측정 방식 활용
         current.SetPrice(g, h);
     }
     public static List<Node> PathFinding(Board board, Node start, Node dest)
